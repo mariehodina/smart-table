@@ -8,7 +8,7 @@ export function initFiltering(elements, indexes) {
     if (elements[elementName]) {
       const defaultOption = document.createElement("option");
       defaultOption.value = "";
-      defaultOption.textContent = "OK";
+      defaultOption.textContent = "Все";
       elements[elementName].append(defaultOption);
       elements[elementName].append(
         ...Object.values(indexes[elementName]).map((name) => {
