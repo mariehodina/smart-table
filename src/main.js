@@ -49,7 +49,7 @@ const sampleTable = initTable(
   {
     tableTemplate: "table",
     rowTemplate: "row",
-    before: ['search', 'header', 'filter'],
+    before: ["search", "header", "filter"],
     after: ["pagination"],
   },
   render,
@@ -74,7 +74,7 @@ const applySorting = initSorting([
 const applyFiltering = initFiltering(sampleTable.filter.elements, {
   searchBySeller: indexes.sellers,
 });
-const applySearching = initSearching('search');
+const applySearching = initSearching("search");
 const appRoot = document.querySelector("#app");
 appRoot.appendChild(sampleTable.container);
 
