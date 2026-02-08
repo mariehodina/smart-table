@@ -11,8 +11,8 @@ export function initFiltering(elements, indexes) {
           ...Object.values(indexes[elementName])
             .map(name => {
               const option = document.createElement("option");
-              option.value = name;
               option.textContent = name;
+              option.value = name;
               return option;
             }),
         );
