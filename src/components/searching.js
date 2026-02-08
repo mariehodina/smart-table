@@ -3,7 +3,7 @@ import { rules, createComparison } from "../lib/compare.js";
 export function initSearching(searchField) {
   // @todo: #5.1 — настроить компаратор
   const comparator = createComparison(
-    [rules.skipEmptyTargetValues],
+    ["skipEmptyTargetValues"],
     [
       rules.searchMultipleFields(
         searchField,
