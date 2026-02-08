@@ -21,12 +21,14 @@ export function initFiltering(elements, indexes) {
 
   return (data, state, action) => {
     // @todo: #4.2 — обработать очистку поля
-    if (action && action.name === "clear") {
+if (action && action.name === "clear") {
         const parent = action.parentElement;
         const input = parent.querySelector("input");
-        input.value = "";
-        state[action.dataset.field] = ""; 
+        if (input && input.name) {
+            input.value = "";
+            state[input.name] = "";
     }
+}
     // @todo: #4.5 — отфильтровать данные используя компаратор
     return data.filter((row) => compare(row, state));
     
