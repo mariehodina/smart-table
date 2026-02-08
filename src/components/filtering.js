@@ -24,13 +24,11 @@ export function initFiltering(elements, indexes) {
     if (action && action.name === "clear") {
         const fieldName = action.dataset.field;
         if (fieldName) {
-            const parent = action.closest('.filter-wrapper, .range-inputs');
-            if (parent) {
-                const input = parent.querySelector(`input[name="${fieldName}"]`);
-                if (input) {
-                    input.value = "";
-                    state[fieldName] = "";
-                }
+            const parent = action.parentElement;
+            const input = parent.querySelector('input');
+            if (input) {
+                input.value = "";
+                state[fieldName] = "";
             }
         }
     }
