@@ -38,18 +38,19 @@ export function initTable(settings, onAction) {
     const nextRows = data.map(item => {  
   const row = cloneTemplate(rowTemplate);
   Object.keys(item).forEach(key => {
-    if (row.elements && key in row.elements) {
+    if (row.elements[key]) {
       row.elements[key].textContent = item[key];
     }
   });
   return row.container;
 });
-    if (root.elements && root.elements.rows) {
-      root.elements.rows.replaceChildren(...nextRows);
-    } else {
-      console.error('Element "rows" not found in table template');
-    }
-  };
+//     if (root.elements && root.elements.rows) {
+       root.elements.rows.replaceChildren(...nextRows);
+//     } else {
+//       console.error('Element "rows" not found in table template');
+//     }
+   };
 
   return { ...root, render };
+
 }
