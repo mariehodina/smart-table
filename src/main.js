@@ -14,7 +14,6 @@ import { initFiltering } from "./components/filtering.js";
 import { initSearching } from "./components/searching.js";
 // Исходные данные используемые в render()
 const { data, ...indexes } = initData(sourceData);
-let sampleTable, applyPagination, applySorting, applyFiltering, applySearching;
 /**
  * Сбор и обработка полей из таблицы
  * @returns {Object}
@@ -37,7 +36,7 @@ function collectState() {
 function render(action) {
   let state = collectState(); 
   let result = [...data]; 
-  
+
   // @todo: использование
   result = applySearching(result, state, action);
   result = applyFiltering(result, state, action);
@@ -46,7 +45,7 @@ function render(action) {
   sampleTable.render(result);
 }
 
-sampleTable = initTable(
+const sampleTable = initTable(
   {
     tableTemplate: "table",
     rowTemplate: "row",
@@ -57,7 +56,7 @@ sampleTable = initTable(
 );
 
 // @todo: инициализация
- applyPagination = initPagination(
+ const applyPagination = initPagination(
   sampleTable.pagination.elements,
   (el, page, isCurrent) => {
     const input = el.querySelector("input");
@@ -68,14 +67,14 @@ sampleTable = initTable(
     return el;
   },
 );
-applySorting = initSorting([
+const applySorting = initSorting([
   sampleTable.header.elements.sortByDate,
   sampleTable.header.elements.sortByTotal,
 ]);
-applyFiltering = initFiltering(sampleTable.filter.elements, {
+const applyFiltering = initFiltering(sampleTable.filter.elements, {
   searchBySeller: indexes.sellers,
 });
-applySearching = initSearching("search");
+const applySearching = initSearching("search");
 const appRoot = document.querySelector("#app");
 appRoot.appendChild(sampleTable.container);
 
