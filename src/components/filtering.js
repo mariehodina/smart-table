@@ -22,13 +22,15 @@ export function initFiltering(elements, indexes) {
   return (data, state, action) => {
     // @todo: #4.2 — обработать очистку поля
     if (action && action.name === "clear") {
-        const fieldName = action.dataset.field;
+        const fieldName = action.dataset.field; 
         if (fieldName) {
-            const parent = action.parentElement;
-            const input = parent.querySelector('input');
-            if (input) {
-                input.value = "";
-                state[fieldName] = "";
+            const parent = action.closest('.filter-wrapper, .range-inputs, .table-column');
+            if (parent) {
+                const input = parent.querySelector(`input[name="${fieldName}"]`);
+                if (input) {
+                    input.value = "";
+                    state[fieldName] = "";
+                }
             }
         }
     }
