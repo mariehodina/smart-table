@@ -12,14 +12,16 @@ export function initTable(settings, onAction) {
   const root = cloneTemplate(tableTemplate);
 
   // @todo: #1.2 —  вывести дополнительные шаблоны до и после таблицы
- before.reverse().forEach(subName => {                            // перебираем нужный массив идентификаторов
-    root[subName] = cloneTemplate(subName);            // клонируем и получаем объект, сохраняем в таблице
-    root.container.prepend(root[subName].container);    // добавляем к таблице после (append) или до (prepend)
-});
-  after.forEach(subName => {                            // перебираем нужный массив идентификаторов
-    root[subName] = cloneTemplate(subName);            // клонируем и получаем объект, сохраняем в таблице
-    root.container.append(root[subName].container);    // добавляем к таблице после (append) или до (prepend)
-});
+  before.reverse().forEach((subName) => {
+    // перебираем нужный массив идентификаторов
+    root[subName] = cloneTemplate(subName); // клонируем и получаем объект, сохраняем в таблице
+    root.container.prepend(root[subName].container); // добавляем к таблице после (append) или до (prepend)
+  });
+  after.forEach((subName) => {
+    // перебираем нужный массив идентификаторов
+    root[subName] = cloneTemplate(subName); // клонируем и получаем объект, сохраняем в таблице
+    root.container.append(root[subName].container); // добавляем к таблице после (append) или до (prepend)
+  });
 
   // @todo: #1.3 —  обработать события и вызвать onAction()
   root.container.addEventListener("change", () => {
@@ -44,7 +46,12 @@ export function initTable(settings, onAction) {
       });
       return row.container;
     });
-    root.elements.rows.replaceChildren(...nextRows);
+    if (root.elements && root.elements.rows) {
+      root.elements.rows.replaceChildren(...nextRows);
+    } else {
+      console.error('Element "rows" not found in table template');
+    }
   };
+
   return { ...root, render };
 }
