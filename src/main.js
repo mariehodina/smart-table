@@ -35,8 +35,9 @@ function collectState() {
  * @param {HTMLButtonElement?} action
  */
 function render(action) {
-  let state = collectState(); // состояние полей из таблицы
-  let result = [...data]; // копируем для последующего изменения
+  let state = collectState(); 
+  let result = [...data]; 
+  
   // @todo: использование
   result = applySearching(result, state, action);
   result = applyFiltering(result, state, action);
