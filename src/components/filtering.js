@@ -21,22 +21,17 @@ export function initFiltering(elements, indexes) {
 
   return (data, state, action) => {
     // @todo: #4.2 — обработать очистку поля
-if (action && action.name === 'clear') {
-            const fieldName = action.dataset.field;
-            if (fieldName) {
-                const parent = action.parentElement;
-                const input = parent.querySelector('input');
-                if (input) {
-                    input.value = '';
-                }
-                if (state[fieldName]) {
-                    state[fieldName] = '';
-                }
-                if (elements[fieldName]) {
-                    elements[fieldName].value = '';
-                }
+    if (action && action.name === "clear") {
+        const fieldName = action.dataset.field;
+        if (fieldName) {
+            const form = action.closest('form[name="table"]');
+            const input = form.querySelector(`[name="${fieldName}"]`); 
+            if (input) {
+                input.value = "";
+                state[fieldName] = "";
             }
         }
+    }
     // @todo: #4.5 — отфильтровать данные используя компаратор
     return data.filter((row) => compare(row, state));
     
