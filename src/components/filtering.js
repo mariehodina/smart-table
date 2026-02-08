@@ -4,14 +4,12 @@ import { createComparison, defaultRules } from "../lib/compare.js";
 const compare = createComparison(defaultRules);
 export function initFiltering(elements, indexes) {
   // @todo: #4.1 — заполнить выпадающие списки опциями
-  Object.keys(indexes).forEach((elementName) => {
+  Object.keys(indexes)
+  .forEach((elementName) => {
     if (elements[elementName]) {
-    //   const defaultOption = document.createElement("option");
-    //   defaultOption.value = "";
-    //   defaultOption.textContent = "Все";
-    //   elements[elementName].append(defaultOption);
       elements[elementName].append(
-        ...Object.values(indexes[elementName]).map(name => {
+        ...Object.values(indexes[elementName])
+        .map(name => {
           const option = document.createElement("option");
           option.value = name;
           option.textContent = name;

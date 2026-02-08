@@ -14,8 +14,8 @@ export function initSearching(searchField) {
   );
   return (data, state, action) => {
     // @todo: #5.2 — применить компаратор
-    const searchQuery = state[searchField] || "";
-    if (!searchQuery.trim()) {
+    const searchQuery = (state[searchField] || "").toLowerCase().trim();
+    if (!searchQuery) {
       return data;
     }
     const searchLower = searchQuery.toLowerCase();
