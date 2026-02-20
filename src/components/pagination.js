@@ -18,24 +18,23 @@ export const initPagination = (
       switch (action.name) {
         case "prev":
           page = Math.max(1, page - 1);
-          break; // переход на предыдущую страницу
+          break;
         case "next":
           page = Math.min(pageCount, page + 1);
-          break; // переход на следующую страницу
+          break;
         case "first":
           page = 1;
-          break; // переход на первую страницу
+          break;
         case "last":
           page = pageCount;
-          break; // переход на последнюю страницу
+          break;
       }
     // @todo: #2.4 — получить список видимых страниц и вывести их
-    const visiblePages = getPages(page, pageCount, 5); // Получим массив страниц, которые нужно показать, выводим только 5 страниц
+    const visiblePages = getPages(page, pageCount, 5);
     pages.replaceChildren(
       ...visiblePages.map((pageNumber) => {
-        // перебираем их и создаём для них кнопку
-        const el = pageTemplate.cloneNode(true); // клонируем шаблон, который запомнили ранее
-        return createPage(el, pageNumber, pageNumber === page); // вызываем колбэк из настроек, чтобы заполнить кнопку данными
+        const el = pageTemplate.cloneNode(true);
+        return createPage(el, pageNumber, pageNumber === page);
       }),
     );
     // @todo: #2.5 — обновить статус пагинации
