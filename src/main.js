@@ -7,11 +7,11 @@ import { initData } from "./data.js";
 import { processFormData } from "./lib/utils.js";
 
 import { initTable } from "./components/table.js";
-// @todo: подключение
 import { initPagination } from "./components/pagination.js";
 import { initSorting } from "./components/sorting.js";
 import { initFiltering } from "./components/filtering.js";
 import { initSearching } from "./components/searching.js";
+
 const API = initData(sourceData);
 let indexes = {};
 
@@ -37,13 +37,14 @@ function collectState() {
 async function render(action) {
   let state = collectState();
   let query = {};
-
-  // @todo: использование
   query = applySearching(query, state, action);
   query = applyFiltering(query, state, action);
   query = applySorting(query, state, action);
   query = applyPagination(query, state, action);
+
   const { total, items } = await API.getRecords(query);
+  updatePagination(total, query);
+
   sampleTable.render(items);
 }
 
@@ -58,7 +59,7 @@ const sampleTable = initTable(
 );
 
 // @todo: инициализация
-const applyPagination = initPagination(
+const {applyPagination, updatePagination} = initPagination(
   sampleTable.pagination.elements,
   (el, page, isCurrent) => {
     const input = el.querySelector("input");
@@ -70,16 +71,19 @@ const applyPagination = initPagination(
   },
 );
 
-const applySorting = initSorting([
+const { applySorting, updateSorting } = initSorting([
   sampleTable.header.elements.sortByDate,
   sampleTable.header.elements.sortByTotal,
 ]);
 
-const applyFiltering = initFiltering(sampleTable.filter.elements, {
-  searchBySeller: indexes.sellers,
-});
+const { applyFiltering, updateFiltering } = initFiltering(
+  sampleTable.filter.elements,
+  {
+    searchBySeller: indexes.sellers,
+  },
+);
 
-const applySearching = initSearching("search");
+const { applySearching, updateSearching } = initSearching("search");
 
 const appRoot = document.querySelector("#app");
 appRoot.appendChild(sampleTable.container);
@@ -89,9 +93,14 @@ appRoot.appendChild(sampleTable.container);
  */
 async function init() {
   indexes = await API.getIndexes();
-  applyFiltering = initFiltering(sampleTable.filter.elements, {
+  const {
+    applyFiltering: newApplyFiltering,
+    updateFiltering: newUpdateFiltering,
+  } = initFiltering(sampleTable.filter.elements, {
     searchBySeller: indexes.sellers,
   });
+  applyFiltering = newApplyFiltering;
+  updateFiltering = newUpdateFiltering;
 }
 
-init().then(render);
+init().then(() => render());
