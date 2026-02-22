@@ -14,6 +14,10 @@ import { initSearching } from "./components/searching.js";
 
 const API = initData(sourceData);
 let indexes = {};
+let applyPagination, updatePagination;
+let applySorting, updateSorting;
+let applyFiltering, updateIndexes;  
+let applySearching, updateSearching;
 
 /**
  * Сбор и обработка полей из таблицы
@@ -58,8 +62,11 @@ const sampleTable = initTable(
   render,
 );
 
-// @todo: инициализация
-const {applyPagination, updatePagination} = initPagination(
+// @todo: инициализация пагинации
+({
+  applyPagination,
+  updatePagination
+} = initPagination(
   sampleTable.pagination.elements,
   (el, page, isCurrent) => {
     const input = el.querySelector("input");
@@ -69,21 +76,22 @@ const {applyPagination, updatePagination} = initPagination(
     label.textContent = page;
     return el;
   },
-);
-
-const { applySorting, updateSorting } = initSorting([
+));
+({
+  applySorting,
+  updateSorting
+} = initSorting([
   sampleTable.header.elements.sortByDate,
   sampleTable.header.elements.sortByTotal,
-]);
-
-const { applyFiltering, updateFiltering } = initFiltering(
-  sampleTable.filter.elements,
-  {
-    searchBySeller: indexes.sellers,
-  },
-);
-
-const { applySearching, updateSearching } = initSearching("search");
+]));
+({
+  applyFiltering,
+  updateIndexes
+} = initFiltering(sampleTable.filter.elements));
+({
+  applySearching,
+  updateSearching
+} = initSearching("search"));
 
 const appRoot = document.querySelector("#app");
 appRoot.appendChild(sampleTable.container);
@@ -93,14 +101,8 @@ appRoot.appendChild(sampleTable.container);
  */
 async function init() {
   indexes = await API.getIndexes();
-  const {
-    applyFiltering: newApplyFiltering,
-    updateFiltering: newUpdateFiltering,
-  } = initFiltering(sampleTable.filter.elements, {
-    searchBySeller: indexes.sellers,
+  updateIndexes(sampleTable.filter.elements, {
+    searchBySeller: indexes.sellers
   });
-  applyFiltering = newApplyFiltering;
-  updateFiltering = newUpdateFiltering;
 }
-
 init().then(() => render());
