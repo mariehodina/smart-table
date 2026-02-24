@@ -36,9 +36,6 @@ export function initData(sourceData) {
 
     const response = await fetch(`${BASE_URL}/records?${nextQuery}`);
     const records = await response.json();
-    if (!sellers || !customers) {
-      await getIndexes();
-    }
 
     lastQuery = nextQuery; 
     lastResult = {

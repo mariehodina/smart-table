@@ -1,13 +1,8 @@
 export function initSearching(searchField) {
   return (query, state, action) => {
-  // @todo: #5.1 — настроить компаратор
-  if (state[searchField] && state[searchField].trim() !== '') {
-   return Object.assign({}, query, {
-        search: state[searchField] // устанавливаем в query параметр для сервера
-      });
-    }
-    
-    // @todo: #5.2 — применить компаратор
-      return query;
-  };
+  // @todo: #5.1 — настроить компаратор// 
+    return state[searchField] ? Object.assign({}, query, { // проверяем, что в поле поиска было что-то введено
+        search: state[searchField] // устанавливаем в query параметр
+    }) : query;  // если поле с поиском пустое, просто возвращаем query без изменений
+}
 }
