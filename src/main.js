@@ -1,5 +1,5 @@
-import "./fonts/ys-display/fonts.css";
-import "./style.css";
+// import "./fonts/ys-display/fonts.css";
+// import "./style.css";
 
 import { data as sourceData } from "./data/dataset_1.js";
 
@@ -15,10 +15,9 @@ import { initSearching } from "./components/searching.js";
 const API = initData(sourceData);
 let indexes = {};
 // let applyPagination, updatePagination;
-// let applySorting, updateSorting;
-// let applyFiltering, updateIndexes;  
-// let applySearching, updateSearching;
-
+let applySorting, updateSorting;
+let applyFiltering, updateIndexes;
+let applySearching, updateSearching;
 /**
  * Сбор и обработка полей из таблицы
  * @returns {Object}
@@ -46,7 +45,7 @@ async function render(action) {
   query = applySorting(query, state, action);
   query = applyPagination(query, state, action);
 
-  const {total, items} = await API.getRecords(query);
+  const { total, items } = await API.getRecords(query);
   updatePagination(total, query);
 
   sampleTable.render(items);
@@ -63,7 +62,7 @@ const sampleTable = initTable(
 );
 
 // @todo: инициализация пагинации
-const {applyPagination, updatePagination} = initPagination(
+const { applyPagination, updatePagination } = initPagination(
   sampleTable.pagination.elements,
   (el, page, isCurrent) => {
     const input = el.querySelector("input");
@@ -74,18 +73,14 @@ const {applyPagination, updatePagination} = initPagination(
     return el;
   },
 );
-({
-  applySorting,
-  updateSorting
-} = initSorting([
+({ applySorting, updateSorting } = initSorting([
   sampleTable.header.elements.sortByDate,
   sampleTable.header.elements.sortByTotal,
 ]));
-({ applyFiltering, updateIndexes } = initFiltering(sampleTable.filter.elements));
-({
-  applySearching,
-  updateSearching
-} = initSearching("search"));
+({ applyFiltering, updateIndexes } = initFiltering(
+  sampleTable.filter.elements,
+));
+({ applySearching, updateSearching } = initSearching("search"));
 
 const appRoot = document.querySelector("#app");
 appRoot.appendChild(sampleTable.container);
@@ -96,7 +91,7 @@ appRoot.appendChild(sampleTable.container);
 async function init() {
   indexes = await API.getIndexes();
   updateIndexes(sampleTable.filter.elements, {
-    searchBySeller: indexes.sellers
+    searchBySeller: indexes.sellers,
   });
 }
 init().then(() => render());
