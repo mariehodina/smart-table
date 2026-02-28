@@ -1,7 +1,7 @@
-import { sortCollection, sortMap } from "../lib/sort.js";
+import {sortMap} from "../lib/sort.js"; // sortCollection больше не нужен
 
 export function initSorting(columns) {
-  return (query, state, action) => {
+    return (query, state, action) => {
     let field = null;
     let order = null;
 

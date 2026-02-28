@@ -16,8 +16,9 @@ const API = initData(sourceData);
 let indexes = {};
 // let applyPagination, updatePagination;
 let applySorting, updateSorting;
-let applyFiltering, updateIndexes;
+// // let applyFiltering, updateIndexes;
 let applySearching, updateSearching;
+
 /**
  * Сбор и обработка полей из таблицы
  * @returns {Object}
@@ -73,13 +74,14 @@ const { applyPagination, updatePagination } = initPagination(
     return el;
   },
 );
+
 ({ applySorting, updateSorting } = initSorting([
   sampleTable.header.elements.sortByDate,
   sampleTable.header.elements.sortByTotal,
 ]));
-({ applyFiltering, updateIndexes } = initFiltering(
-  sampleTable.filter.elements,
-));
+
+const { applyFiltering, updateIndexes } = initFiltering(sampleTable.filter.elements);
+
 ({ applySearching, updateSearching } = initSearching("search"));
 
 const appRoot = document.querySelector("#app");
