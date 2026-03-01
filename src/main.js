@@ -14,9 +14,10 @@ import { initSearching } from "./components/searching.js";
 const API = initData(sourceData);
 let indexes = {};
 // let applyPagination, updatePagination;
-let applySorting, updateSorting;
+// let applySorting, updateSorting;
 // // let applyFiltering, updateIndexes;
 let applySearching, updateSearching;
+
 
 /**
  * Сбор и обработка полей из таблицы
@@ -40,6 +41,11 @@ function collectState() {
 async function render(action) {
   let state = collectState();
   let query = {};
+const applySorting = initSorting([
+    sampleTable.header.elements.sortByDate,
+    sampleTable.header.elements.sortByTotal,
+  ]);
+const applySearching = initSearching("search");
   query = applySearching(query, state, action);
   query = applyFiltering(query, state, action);
   query = applySorting(query, state, action);
@@ -73,15 +79,7 @@ const { applyPagination, updatePagination } = initPagination(
     return el;
   },
 );
-
-({ applySorting, updateSorting } = initSorting([
-  sampleTable.header.elements.sortByDate,
-  sampleTable.header.elements.sortByTotal,
-]));
-
 const { applyFiltering, updateIndexes } = initFiltering(sampleTable.filter.elements);
-
-({ applySearching, updateSearching } = initSearching("search"));
 
 const appRoot = document.querySelector("#app");
 appRoot.appendChild(sampleTable.container);
