@@ -41,22 +41,21 @@ function collectState() {
 async function render(action) {
   let state = collectState();
   let query = {};
+
 const applySorting = initSorting([
     sampleTable.header.elements.sortByDate,
     sampleTable.header.elements.sortByTotal,
   ]);
 const applySearching = initSearching("search");
+
   query = applySearching(query, state, action);
   query = applyFiltering(query, state, action);
   query = applySorting(query, state, action);
   query = applyPagination(query, state, action);
-
   const { total, items } = await API.getRecords(query);
   updatePagination(total, query);
-
   sampleTable.render(items);
 }
-
 const sampleTable = initTable(
   {
     tableTemplate: "table",
@@ -80,7 +79,6 @@ const { applyPagination, updatePagination } = initPagination(
   },
 );
 const { applyFiltering, updateIndexes } = initFiltering(sampleTable.filter.elements);
-
 const appRoot = document.querySelector("#app");
 appRoot.appendChild(sampleTable.container);
 
@@ -88,7 +86,7 @@ appRoot.appendChild(sampleTable.container);
  * Инициализация приложения
  */
 async function init() {
-  indexes = await API.getIndexes();
+  const indexes = await API.getIndexes();
   updateIndexes(sampleTable.filter.elements, {
     searchBySeller: indexes.sellers,
   });
